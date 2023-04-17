@@ -44,7 +44,9 @@ app.use((err, req, res, next) => {
 // Database connection test:
 (async () => {
   try {
+    // Test the connection to the database
     await sequelize.authenticate();
+    // Sync the models(true - completly recreates tables each time the app starts, false - saves all data in DB)
     await sequelize.sync({force: false});
     console.log("Connection to database is set successfully!!!");
   } 
