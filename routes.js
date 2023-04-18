@@ -100,7 +100,18 @@ router.put('/courses/:id', asyncHandler(async (req, res) => {
   }
 }));
 
+/* Delete individual course. */
+router.delete('/courses/:id', asyncHandler(async (req ,res) => {
+  const course  = await Course.findByPk(req.params.id);
+  if (course) {
+    await course.destroy();
+    res.status(204).end();
+  } else {
+    //res.sendStatus(404);
+    res.render('error');
+  }
 
+}));
 
 
 module.exports = router;
