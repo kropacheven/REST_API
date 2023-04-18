@@ -76,4 +76,31 @@ router.get("/courses/:id", asyncHandler(async (req, res) => {
 }));
 
 
-  module.exports = router;
+/* Update individual course. */
+router.put('/courses/:id', asyncHandler(async (req, res) => {
+  let course;
+  try {
+    course = await Course.findByPk(req.params.id);
+    if (course) {
+      await course.update(req.body);
+      res.status(204).end();
+      //res.redirect("/books/" + books.id);
+    } else {
+      //res.sendStatus(404);
+      res.render('error');
+    }
+  } catch (error) {
+    // if(error.name === "SequelizeValidationError") {
+    //   books = await Book.build(req.body);
+    //   books.id = req.params.id; // make sure correct article gets updated
+    //   res.render("update-book", { books, errors: error.errors, title: "Update Book" })
+    // } else {
+    //   throw error;
+    // }
+  }
+}));
+
+
+
+
+module.exports = router;
