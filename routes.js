@@ -5,6 +5,7 @@ const express = require('express');
 // Construct a router instance.
 const router = express.Router();
 const User = require('./models').User;
+const Course = require('./models').Course;
 
 // Handler function to wrap each route.
 function asyncHandler(cb) {
@@ -18,6 +19,7 @@ function asyncHandler(cb) {
     }
   }
 
+// --------------------- Users ------------------------ //
 
 // Route that returns a list of users.
 router.get('/users', asyncHandler(async (req, res) => {
@@ -41,7 +43,25 @@ router.post('/users', asyncHandler(async (req, res) => {
     //   }
     }
   }));
+
   
+// --------------------- Courses ------------------------ //
+
+// Route that returns a list of courses.
+router.get('/courses', asyncHandler(async (req, res) => {
+    let courses = await Course.findAll();
+    res.status(200).json(courses);
+  }));
+
+// Route that creates a new course.
+router.post('/courses', asyncHandler(async (req, res) => {
+    try {
+      await Course.create(req.body);
+      res.status(201).json({ "message": "Course successfully created!" });
+    } catch (error) {
+      console.log('ERROR: ', error.name);
+    }
+  }));
 
 
   module.exports = router;
