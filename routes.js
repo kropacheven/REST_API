@@ -64,4 +64,16 @@ router.post('/courses', asyncHandler(async (req, res) => {
   }));
 
 
+/* GET individual course. */
+router.get("/courses/:id", asyncHandler(async (req, res) => {
+  let course = await Course.findByPk(req.params.id);
+  if (course) {
+    res.status(201).json(course);
+  } else {
+    //res.sendStatus(404);
+    res.render('error');
+  }
+}));
+
+
   module.exports = router;
