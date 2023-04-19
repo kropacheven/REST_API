@@ -34,13 +34,13 @@ router.post('/users', asyncHandler(async (req, res) => {
       res.status(201).json({ "message": "Account successfully created!" });
     } catch (error) {
       console.log('ERROR: ', error.name);
-  
-    //   if (error.name === 'SequelizeValidationError' || error.name === 'SequelizeUniqueConstraintError') {
-    //     const errors = error.errors.map(err => err.message);
-    //     res.status(400).json({ errors });   
-    //   } else {
-    //     throw error;
-    //   }
+
+      if (error.name === 'SequelizeValidationError' || error.name === 'SequelizeUniqueConstraintError') {
+        const errors = error.errors.map(err => err.message);
+        res.status(400).json({ errors });   
+      } else {
+        throw error;
+      }
     }
   }));
 
@@ -61,6 +61,14 @@ router.post('/courses', asyncHandler(async (req, res) => {
     } catch (error) {
       console.log('ERROR: ', error.name);
     }
+
+    if (error.name === 'SequelizeValidationError' || error.name === 'SequelizeUniqueConstraintError') {
+      const errors = error.errors.map(err => err.message);
+      res.status(400).json({ errors });   
+    } else {
+      throw error;
+    }
+
   }));
 
 
@@ -90,13 +98,14 @@ router.put('/courses/:id', asyncHandler(async (req, res) => {
       res.render('error');
     }
   } catch (error) {
-    // if(error.name === "SequelizeValidationError") {
-    //   books = await Book.build(req.body);
-    //   books.id = req.params.id; // make sure correct article gets updated
-    //   res.render("update-book", { books, errors: error.errors, title: "Update Book" })
-    // } else {
-    //   throw error;
-    // }
+      console.log('ERROR: ', error.name);
+
+      if (error.name === 'SequelizeValidationError' || error.name === 'SequelizeUniqueConstraintError') {
+        const errors = error.errors.map(err => err.message);
+        res.status(400).json({ errors });   
+      } else {
+        throw error;
+      }
   }
 }));
 
