@@ -34,13 +34,14 @@ router.post('/users', asyncHandler(async (req, res) => {
       res.status(201).json({ "message": "Account successfully created!" });
     } catch (error) {
       console.log('ERROR: ', error.name);
-
+      
       if (error.name === 'SequelizeValidationError' || error.name === 'SequelizeUniqueConstraintError') {
         const errors = error.errors.map(err => err.message);
         res.status(400).json({ errors });   
       } else {
         throw error;
       }
+
     }
   }));
 
@@ -60,7 +61,6 @@ router.post('/courses', asyncHandler(async (req, res) => {
       res.status(201).json({ "message": "Course successfully created!" });
     } catch (error) {
       console.log('ERROR: ', error.name);
-    }
 
     if (error.name === 'SequelizeValidationError' || error.name === 'SequelizeUniqueConstraintError') {
       const errors = error.errors.map(err => err.message);
@@ -68,6 +68,8 @@ router.post('/courses', asyncHandler(async (req, res) => {
     } else {
       throw error;
     }
+    }
+
 
   }));
 
