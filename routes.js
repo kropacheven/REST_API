@@ -49,6 +49,22 @@ router.post('/users', asyncHandler(async (req, res) => {
     }
   }));
 
+/* Delete individual user. */
+router.delete('/users/:id',  authenticateUser, asyncHandler(async (req ,res) => {
+  //Aythentication request: 
+  const user = req.currentUser;
+
+  const userDel  = await User.findByPk(req.params.id);
+  if (userDel) {
+    await userDel.destroy();
+    res.status(204).end();
+  } else {
+    //res.sendStatus(404);
+    res.render('error');
+  }
+
+}));
+
   
 // --------------------- Courses ------------------------ //
 
