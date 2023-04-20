@@ -6,6 +6,7 @@ const express = require('express');
 const router = express.Router();
 const User = require('./models').User;
 const Course = require('./models').Course;
+const { authenticateUser } = require('./middleware/auth-user');
 
 // Handler function to wrap each route.
 function asyncHandler(cb) {
