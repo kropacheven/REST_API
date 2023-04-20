@@ -23,9 +23,12 @@ function asyncHandler(cb) {
 // --------------------- Users ------------------------ //
 
 // Route that returns a list of users.
-router.get('/users', asyncHandler(async (req, res) => {
-    let users = await User.findAll();
-    res.status(200).json(users);
+router.get('/users', authenticateUser, asyncHandler(async (req, res) => {
+  //Aythentication request: 
+  const user = req.currentUser;
+
+  let users = await User.findAll();
+  res.status(200).json(users);
   }));
 
 // Route that creates a new user.
