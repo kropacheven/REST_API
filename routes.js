@@ -122,7 +122,10 @@ router.put('/courses/:id', authenticateUser, asyncHandler(async (req, res) => {
 }));
 
 /* Delete individual course. */
-router.delete('/courses/:id', asyncHandler(async (req ,res) => {
+router.delete('/courses/:id',  authenticateUser, asyncHandler(async (req ,res) => {
+  //Aythentication request: 
+  const user = req.currentUser;
+
   const course  = await Course.findByPk(req.params.id);
   if (course) {
     await course.destroy();
