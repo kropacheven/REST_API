@@ -62,7 +62,7 @@ router.get('/courses', asyncHandler(async (req, res) => {
 router.post('/courses', authenticateUser, asyncHandler(async (req, res) => {
     //Aythentication request: 
     const user = req.currentUser;
-    
+
     try {
       await Course.create(req.body);
       res.status(201).json({ "message": "Course successfully created!" });
@@ -94,7 +94,10 @@ router.get("/courses/:id", asyncHandler(async (req, res) => {
 
 
 /* Update individual course. */
-router.put('/courses/:id', asyncHandler(async (req, res) => {
+router.put('/courses/:id', authenticateUser, asyncHandler(async (req, res) => {
+  //Aythentication request: 
+  const user = req.currentUser;
+
   let course;
   try {
     course = await Course.findByPk(req.params.id);
