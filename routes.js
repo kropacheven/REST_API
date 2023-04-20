@@ -26,7 +26,7 @@ function asyncHandler(cb) {
 router.get('/users', authenticateUser, asyncHandler(async (req, res) => {
   //Aythentication request: 
   const user = req.currentUser;
-
+  
   let users = await User.findAll();
   res.status(200).json(users);
   }));
@@ -59,7 +59,10 @@ router.get('/courses', asyncHandler(async (req, res) => {
   }));
 
 // Route that creates a new course.
-router.post('/courses', asyncHandler(async (req, res) => {
+router.post('/courses', authenticateUser, asyncHandler(async (req, res) => {
+    //Aythentication request: 
+    const user = req.currentUser;
+    
     try {
       await Course.create(req.body);
       res.status(201).json({ "message": "Course successfully created!" });
