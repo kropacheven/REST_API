@@ -35,6 +35,7 @@ router.get('/users', authenticateUser, asyncHandler(async (req, res) => {
 router.post('/users', asyncHandler(async (req, res) => {
     try {
       await User.create(req.body);
+      res.location("/"); // location Header to "/"
       res.status(201).json({ "message": "Account successfully created!" });
     } catch (error) {
       console.log('ERROR: ', error.name);
@@ -80,7 +81,8 @@ router.post('/courses', authenticateUser, asyncHandler(async (req, res) => {
     const user = req.currentUser;
 
     try {
-      await Course.create(req.body);
+      const course = await Course.create(req.body);
+      res.location(`/courses/${course.id}`); // location Header to "/courses/id"
       res.status(201).json({ "message": "Course successfully created!" });
     } catch (error) {
       console.log('ERROR: ', error.name);
@@ -120,7 +122,6 @@ router.put('/courses/:id', authenticateUser, asyncHandler(async (req, res) => {
     if (course) {
       await course.update(req.body);
       res.status(204).end();
-      //res.redirect("/books/" + books.id);
     } else {
       //res.sendStatus(404);
       res.render('error');
