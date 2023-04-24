@@ -93,7 +93,6 @@ router.post('/courses', authenticateUser, asyncHandler(async (req, res) => {
       } else {
         throw error;
       }
-
     }
   }));
 
@@ -118,8 +117,9 @@ router.put('/courses/:id', authenticateUser, asyncHandler(async (req, res) => {
   let course;
   try {
     course = await Course.findByPk(req.params.id);
+    //For empty object (title and description validation)
     const object = req.body;
-    console.log(object);
+    //console.log(object);
     const error = [];
     if (!object.title && !object.description) {
       error.push('Please provide a value for title and description')
