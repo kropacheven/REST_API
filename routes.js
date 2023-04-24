@@ -118,12 +118,15 @@ router.put('/courses/:id', authenticateUser, asyncHandler(async (req, res) => {
   let course;
   try {
     course = await Course.findByPk(req.params.id);
-    if (course) {
+    const object = req.body;
+    console.log(object);
+    const error = [];
+    if (!object.title && !object.description) {
+      error.push('Please provide a value for title and description')
+      res.status(400).json({ error });
+    } else {
       await course.update(req.body);
       res.status(204).end();
-    } else {
-      //res.sendStatus(404);
-      res.render('error');
     }
   } catch (error) {
       console.log('ERROR: ', error.name);
