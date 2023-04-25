@@ -47,6 +47,7 @@ module.exports = (sequelize, DataTypes) => {
 
   Course.associate = (models) => {
     Course.belongsTo(models.User, {
+      as: 'owner', // alias
       foreignKey: {
         fieldName: 'userId',
         allowNull: false,

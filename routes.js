@@ -72,7 +72,17 @@ router.delete('/users/:id',  authenticateUser, asyncHandler(async (req ,res) => 
 
 // Route that returns a list of courses.
 router.get('/courses', asyncHandler(async (req, res) => {
-    let courses = await Course.findAll();
+    let courses = await Course.findAll(
+      {
+        include: [
+          {
+            model: User,
+            as: 'owner',
+          },
+        ],
+      }
+
+    );
     res.status(200).json(courses);
   }));
 
