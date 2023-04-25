@@ -110,7 +110,16 @@ router.post('/courses', authenticateUser, asyncHandler(async (req, res) => {
 
 /* GET individual course. */
 router.get("/courses/:id", asyncHandler(async (req, res) => {
-  let course = await Course.findByPk(req.params.id);
+  let course = await Course.findByPk(req.params.id, 
+    {
+      include: [
+        {
+          model: User,
+          as: 'owner',
+        },
+      ],
+    } 
+  );
   if (course) {
     res.status(201).json(course);
   } else {
