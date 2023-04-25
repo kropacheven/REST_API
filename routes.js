@@ -143,10 +143,15 @@ router.get("/courses/:id", asyncHandler(async (req, res) => {
 router.put('/courses/:id', authenticateUser, asyncHandler(async (req, res) => {
   //Aythentication request: 
   const user = req.currentUser;
+  //console.log(user);
 
   let course;
   try {
     course = await Course.findByPk(req.params.id);
+    //console.log(course);
+    if (course.userId !== user.id) {
+      res.status(403).json({message: 'You are not authorized to update!!!'}).end();
+    }
     //For empty object (title and description validation)
     const object = req.body;
     //console.log(object);
@@ -184,6 +189,9 @@ router.delete('/courses/:id',  authenticateUser, asyncHandler(async (req ,res) =
   const user = req.currentUser;
 
   const course  = await Course.findByPk(req.params.id);
+  //if (course.userId !== user.id) {
+  //  res.status(403).json({message: 'You are not authorized to update!!!'}).end();
+  //}
   if (course) {
     await course.destroy();
     res.status(204).end();
