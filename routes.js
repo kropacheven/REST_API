@@ -151,13 +151,21 @@ router.put('/courses/:id', authenticateUser, asyncHandler(async (req, res) => {
     const object = req.body;
     //console.log(object);
     const error = [];
-    if (!object.title && !object.description) {
-      error.push('Please provide a value for title and description')
+    if (!object.title) {
+      error.push('Please provide a value for title')
+    } 
+
+    if (!object.description) {
+      error.push('Please provide a short description')
+    } 
+
+    if (error.length > 0) {
       res.status(400).json({ error });
     } else {
       await course.update(req.body);
       res.status(204).end();
     }
+    
   } catch (error) {
       console.log('ERROR: ', error.name);
 
