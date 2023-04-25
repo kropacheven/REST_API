@@ -131,7 +131,7 @@ router.get("/courses/:id", asyncHandler(async (req, res) => {
     }
   );
   if (course) {
-    res.status(201).json(course);
+    res.status(200).json(course);
   } else {
     //res.sendStatus(404);
     res.render('error');
