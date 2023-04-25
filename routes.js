@@ -189,9 +189,9 @@ router.delete('/courses/:id',  authenticateUser, asyncHandler(async (req ,res) =
   const user = req.currentUser;
 
   const course  = await Course.findByPk(req.params.id);
-  //if (course.userId !== user.id) {
-  //  res.status(403).json({message: 'You are not authorized to update!!!'}).end();
-  //}
+  if (course.userId !== user.id) {
+    res.status(403).json({message: 'You are not authorized to update!!!'}).end();
+  }
   if (course) {
     await course.destroy();
     res.status(204).end();
