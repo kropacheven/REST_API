@@ -28,7 +28,13 @@ router.get('/users', authenticateUser, asyncHandler(async (req, res) => {
   const user = req.currentUser;
   
   //let users = await User.findAll();
-  let users = await User.findOne({ where: {id: user.id} } );
+  let users = await User.findOne(
+    {
+      where: {id: user.id}, 
+      attributes: ["id", "firstName", "lastName", "emailAddress"],
+    }
+
+    );
   res.status(200).json(users);
   }));
 
