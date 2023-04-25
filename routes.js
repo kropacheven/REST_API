@@ -78,8 +78,10 @@ router.get('/courses', asyncHandler(async (req, res) => {
           {
             model: User,
             as: 'owner',
+            attributes: ["firstName", "lastName", "emailAddress"],
           },
         ],
+        attributes: ["id", "title", "description", "estimatedTime", "materialsNeeded", "userId"], 
       }
 
     );
@@ -116,9 +118,11 @@ router.get("/courses/:id", asyncHandler(async (req, res) => {
         {
           model: User,
           as: 'owner',
+          attributes: ["id", "firstName", "lastName", "emailAddress"],
         },
       ],
-    } 
+      attributes: ["id", "title", "description", "estimatedTime", "materialsNeeded", "userId"], 
+    }
   );
   if (course) {
     res.status(201).json(course);
