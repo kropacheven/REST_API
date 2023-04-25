@@ -84,7 +84,7 @@ router.post('/courses', authenticateUser, asyncHandler(async (req, res) => {
     try {
       const course = await Course.create(req.body);
       res.location(`/courses/${course.id}`); // location Header to "/courses/id"
-      res.status(201).json({ "message": "Course successfully created!" });
+      res.status(201).json();
     } catch (error) {
       console.log('ERROR: ', error.name);
 
