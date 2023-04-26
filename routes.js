@@ -188,32 +188,18 @@ router.delete('/courses/:id',  authenticateUser, asyncHandler(async (req ,res) =
   //Aythentication request: 
   const user = req.currentUser;
 
-  let course;
+  const course  = await Course.findByPk(req.params.id);
 
-  try {
-    course  = await Course.findByPk(req.params.id);
-    if (course.userId !== user.id) {
-      res.status(403).json({message: 'You are not authorized to delete this course!!!'}).end();
-    }
-    
-    if (course) {
+  if (course) {
+    if (course.userId === user.id) {
       await course.destroy();
       res.status(204).end();
     } else {
-      //res.sendStatus(404);
-      res.render('error');
+      res.status(403).json({ message: 'You are not authorized to delete this course!!!' }).end();
     }
-
-} catch(error) {
-      console.log('ERROR: ', error.name);
-      if (error.name === 'SequelizeValidationError' || error.name === 'SequelizeUniqueConstraintError') {
-        const errors = error.errors.map(err => err.message);
-        res.status(400).json({ errors });   
-      } else {
-        throw error;
-      }
-
-}
+  } else {
+    res.status(404).json({ message: '404 Such course does not exist...Try another one!' }).end();
+  }
 
 }));
 
