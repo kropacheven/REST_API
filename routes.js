@@ -145,7 +145,7 @@ router.put('/courses/:id', authenticateUser, asyncHandler(async (req, res) => {
   const user = req.currentUser;
   //console.log(user);
 
-  let course;
+  //let course;
   try {
     const course = await Course.findByPk(req.params.id);
     if (course) {
