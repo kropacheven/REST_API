@@ -147,28 +147,16 @@ router.put('/courses/:id', authenticateUser, asyncHandler(async (req, res) => {
 
   let course;
   try {
-    course = await Course.findByPk(req.params.id);
-    //console.log(course);
-    if (course.userId !== user.id) {
-      res.status(403).json({message: 'You are not authorized to update this course!!!'}).end();
-    }
-    //For empty object (title and description validation)
-    const object = req.body;
-    //console.log(object);
-    const error = [];
-    if (!object.title) {
-      error.push('Please provide a value for title')
-    } 
-
-    if (!object.description) {
-      error.push('Please provide a short description')
-    } 
-
-    if (error.length > 0) {
-      res.status(400).json({ error });
+    const course = await Course.findByPk(req.params.id);
+    if (course) {
+      if (course.userId === user.id) {
+        await course.update(req.body);
+        res.status(204).end();
+      } else {
+        res.status(403).json({ message: "You are not authorized to update this course!!!" });
+      }
     } else {
-      await course.update(req.body);
-      res.status(204).end();
+      res.status(404).json({ message: "404 Such course does not exist...Try another one!" })
     }
     
   } catch (error) {
