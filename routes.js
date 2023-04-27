@@ -151,7 +151,22 @@ router.put('/courses/:id', authenticateUser, asyncHandler(async (req, res) => {
     if (course) {
       if (course.userId === user.id) {
         await course.update(req.body);
-        res.status(204).end();
+        const object = req.body; //
+        const error = [];
+        if (!object.title) {
+          error.push('Please provide a value for title')
+        } 
+
+        if (!object.description) {
+            error.push('Please provide a short description')
+        } 
+
+        if (error.length > 0) {
+          res.status(400).json({ error });
+        } else {
+          res.status(204).end();
+        }
+
       } else {
         res.status(403).json({ message: "You are not authorized to update this course!!!" });
       }
